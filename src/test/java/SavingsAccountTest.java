@@ -35,7 +35,7 @@ public class SavingsAccountTest {
     }
 
     @Test
-    public void testConstructor() {
+    public void testConstructorPropertyName() {
         // given:
         double money = 100;
         String name = "Сберегательный счет";
@@ -46,8 +46,19 @@ public class SavingsAccountTest {
 
         // then:
         assertThat(sut, hasProperty("name", equalTo(name)));
-        assertThat(sut, hasProperty("amount", equalTo(expected)));
+    }
+    @Test
+    public void testConstructorPropertyAmount() {
+        // given:
+        double money = 100;
+        String name = "Сберегательный счет";
+        double expected = 100;
 
+        // when:
+        sut = new SavingsAccount(money, name);
+
+        // then:
+        assertThat(sut, hasProperty("amount", equalTo(expected)));
     }
     @Test
     public void testConstructorMinus() {
@@ -60,7 +71,6 @@ public class SavingsAccountTest {
         sut = new SavingsAccount(moneyMinus, name);
 
         // then:
-        assertThat(sut, hasProperty("name", equalTo(name)));
         assertThat(sut, hasProperty("amount", equalTo(expected)));
     }
 
@@ -88,10 +98,24 @@ public class SavingsAccountTest {
         double expected = 150;
 
         // when:
-        boolean result = sut.addMoney(amount);
+        sut.addMoney(amount);
 
         // then:
         Assertions.assertEquals(expected, sut.getAmount());
+    }
+    @Test
+    public void testAddMoneyTrue() {
+        // given:
+        double money = 100;
+        double amount = 50;
+        String name = "Сберегательный счет";
+        sut = new SavingsAccount(money, name);
+        double expected = 150;
+
+        // when:
+        boolean result = sut.addMoney(amount);
+
+        // then:
         Assertions.assertTrue(result);
     }
     @Test
@@ -104,10 +128,24 @@ public class SavingsAccountTest {
         sut = new SavingsAccount(money, name);
 
         // when:
-        boolean result = sut.addMoney(amount);
+        sut.addMoney(amount);
 
         // then:
         Assertions.assertEquals(expected, sut.getAmount());
+    }
+    @Test
+    public void testAddMoneyMinusFalse() {
+        // given:
+        double money = 100;
+        double amount = -50;
+        String name = "Сберегательный счет";
+        double expected = 100;
+        sut = new SavingsAccount(money, name);
+
+        // when:
+        boolean result = sut.addMoney(amount);
+
+        // then:
         Assertions.assertFalse(result);
     }
 }
